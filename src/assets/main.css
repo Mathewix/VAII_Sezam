@@ -26,6 +26,7 @@ body {
   @apply bg-slate-700 dark:bg-slate-700;
 }
 
+/* Custom */
 .cool-shadow {
   box-shadow:
     0 10px 15px -3px rgba(128, 128, 128, 0.5),
@@ -51,4 +52,22 @@ body {
   max-height: 64px;
   margin-right: 20px;
   border-radius: 100%;
+}
+
+.title-classic {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.01562em;
+  line-height: 1.25;
+  color: #1f2937;
+}
+
+.galery-image {
+  height: 100%;
+  max-width: 100%;
+  border-radius: 0.5rem;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }

@@ -46,7 +46,7 @@
         montes, nascetur ridiculus mus.
       </p>
       <Button class="mt-4">
-        <RouterLink to="/about"> Read more </RouterLink>
+        <RouterLink to="/about" class="font-bold"> Read more </RouterLink>
       </Button>
     </section>
 
