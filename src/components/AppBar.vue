@@ -1,6 +1,13 @@
 <template>
   <div class="card">
     <Menubar :model="items">
+      <template #start>
+        <img
+          src="@/images/sezam-logo.png"
+          alt="SEZAM Logo"
+          class="sezam-logo"
+        />
+      </template>
       <template #item="{ item, props, hasSubmenu }">
         <router-link
           v-if="item.route"
@@ -38,6 +45,11 @@ const items = ref([
     label: 'Home',
     icon: 'pi pi-home',
     route: '/',
+  },
+  {
+    label: 'Galery',
+    icon: 'pi pi-image',
+    route: '/galery',
   },
   {
     label: 'About',

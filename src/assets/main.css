@@ -11,19 +11,44 @@ body {
 
 /* Custom scrollbar styles */
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 1rem;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-slate-50 dark:bg-slate-950;
+  @apply bg-slate-100 dark:bg-slate-900;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-slate-500 dark:bg-slate-900;
-  border: 1px solid #00b9be18;
+  @apply rounded-full bg-slate-500 dark:bg-slate-800;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-700 dark:bg-slate-800;
-  border: 1px solid #00b9be44;
+  @apply bg-slate-700 dark:bg-slate-700;
+}
+
+.cool-shadow {
+  box-shadow:
+    0 10px 15px -3px rgba(128, 128, 128, 0.5),
+    0 4px 6px -4px rgba(128, 128, 128, 0.5);
+  transition: box-shadow 0.3s ease;
+}
+
+.cool-shadow:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 172, 224, 0.5),
+    0 4px 6px -4px rgba(0, 172, 224, 0.5);
+}
+
+.card-border {
+  border: 1px solid rgba(128, 128, 128, 0.1);
+}
+
+.card-border:hover {
+  border: 1px solid rgba(0, 172, 224, 0.2);
+}
+
+.sezam-logo {
+  max-height: 64px;
+  margin-right: 20px;
+  border-radius: 100%;
 }
