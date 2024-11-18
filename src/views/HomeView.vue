@@ -1,6 +1,6 @@
 <template>
   <section
-    class="sm:min-h-96 min-h-60 text-center bg-no-repeat bg-cover bg-center bg-slate-900/50 bg-blend-multiply bg-[url(https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-6/458765300_927563569405157_6613358675273227108_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=p3wQEKNStkYQ7kNvgEMHFdw&_nc_zt=23&_nc_ht=scontent-vie1-1.xx&_nc_gid=ABdE8SeMF2HYexlKP0AJjVX&oh=00_AYBamqRFFbSUlTwbZygNxjk3Sy591n9fnrMQXkdoikupUQ&oe=67197368)]"
+    class="sm:min-h-96 min-h-60 text-center bg-no-repeat bg-cover bg-center bg-slate-900/50 bg-blend-multiply bg-[url(/images/sezam-home.png)]"
   >
     <div
       class="relative py-8 px-4 mx-auto max-w-screen-xl text-white lg:py-16 xl:px-0 z-1"
@@ -68,14 +68,8 @@
         pondelok 30. septembra 2024. Držíme palce pri riešení!
       </p>
       <div class="grid grid-cols-2 md:grid-cols-2 gap-4 mt-4">
-        <img
-          src="https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-6/459203160_932228395605341_1323352158618008171_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=IxkbvMsEAScQ7kNvgHDZqTN&_nc_zt=23&_nc_ht=scontent-vie1-1.xx&_nc_gid=ACFKQcgAqYivpl-pT-CL7be&oh=00_AYAMtE2J0ajOrcgXFIvTOyeSgk11yFITK8EyZpziQO8l6w&oe=67198870"
-          alt="first page"
-        />
-        <img
-          src="https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-6/459334833_932228305605350_1396424798202752949_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=rHjQ92ZXLzwQ7kNvgH-Pf4A&_nc_zt=23&_nc_ht=scontent-vie1-1.xx&_nc_gid=AiOUaFZiG13PLSv6QB9oryF&oh=00_AYCmd8FhLYeAqENCInIHggpgc9tGFjmEXPCV1CvOkvI5eg&oe=67198E90"
-          alt="second page"
-        />
+        <img src="/images/examples1.png" alt="first page" />
+        <img src="/images/examples2.png" alt="second page" />
       </div>
     </section>
 

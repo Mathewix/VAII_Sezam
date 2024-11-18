@@ -4,7 +4,7 @@
   >
     <img
       class="mx-auto w-36 h-36 rounded-full"
-      src="@/images/basic-instructor.png"
+      src="/images/basic-instructor.png"
       alt="Instructor Avatar"
     />
     <div class="text-center sm:text-left">
@@ -104,7 +104,7 @@ defineProps({
   name: String,
   url: {
     type: String,
-    default: '@/images/basic-instructor.png',
+    default: '/images/basic-instructor.png',
   },
   role: String,
   description: String,

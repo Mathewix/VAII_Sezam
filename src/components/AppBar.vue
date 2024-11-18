@@ -2,11 +2,7 @@
   <div class="card">
     <Menubar :model="items">
       <template #start>
-        <img
-          src="@/images/sezam-logo.png"
-          alt="SEZAM Logo"
-          class="sezam-logo"
-        />
+        <img src="/images/sezam-logo.png" alt="SEZAM Logo" class="sezam-logo" />
       </template>
       <template #item="{ item, props, hasSubmenu }">
         <router-link
