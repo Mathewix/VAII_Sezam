@@ -7,9 +7,8 @@
         <h2
           class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
         >
-          Log in
+          Create new account
         </h2>
-
         <div class="flex flex-col gap-2">
           <label for="email">Email</label>
           <InputText v-model="email" id="email" type="email" />
@@ -18,19 +17,18 @@
           <label for="password">Password</label>
           <InputText v-model="password" id="password" type="password" />
         </div>
-        <p v-if="errorMsg">{{ errorMsg }}</p>
         <div class="flex flex-col gap-2">
           <Button
-            label="Login"
-            icon="pi pi-user"
+            label="Create"
+            icon="pi pi-user-plus"
             class="w-full max-w-[17.35rem] mx-auto"
-            @click="login"
+            @click="register"
           ></Button>
           <Button
-            label="Sign in with Google"
+            label="Sign up with Google"
             icon="pi pi-google"
             class="w-full max-w-[17.35rem] mx-auto"
-            @click="loginWithGoogle"
+            @click="registerWithGoogle"
           ></Button>
         </div>
       </div>
@@ -53,14 +51,14 @@
         <h2
           class="py-4 text-xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-2xl"
         >
-          Join us!
+          Already have an account?
         </h2>
         <Button
-          label="Sign Up"
-          icon="pi pi-user-plus"
+          label="Sign In"
+          icon="pi pi-user"
           severity="success"
           class="w-full max-w-[17.35rem] mx-auto"
-          @click="router.push({ name: 'register' })"
+          @click="router.push({ name: 'login' })"
         ></Button>
       </div>
     </div>
@@ -69,7 +67,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from 'firebase/auth'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Divider from 'primevue/divider'
@@ -79,11 +82,10 @@ const router = useRouter()
 
 const email = ref('')
 const password = ref('')
-const errorMsg = ref('')
 
-const login = () => {
+const register = () => {
   const auth = getAuth()
-  signInWithEmailAndPassword(auth, email.value, password.value)
+  createUserWithEmailAndPassword(auth, email.value, password.value)
     .then(data => {
       console.log(data)
       console.log(auth.currentUser)
@@ -91,24 +93,19 @@ const login = () => {
     })
     .catch(error => {
       console.log(error.code)
-      switch (error.code) {
-        case 'auth/invalid-email':
-          errorMsg.value = 'Invalid email'
-          break
-        case 'auth/user-not-found':
-          errorMsg.value = 'Email is not registered'
-          break
-        case 'auth/wrong-password':
-          errorMsg.value = 'Incorrect password'
-          break
-        default:
-          errorMsg.value = 'Email or password was incorrect'
-          break
-      }
+      alert(error.message)
     })
 }
-const loginWithGoogle = () => {
-  console.log('google')
+const registerWithGoogle = () => {
+  const provider = new GoogleAuthProvider()
+  signInWithPopup(getAuth(), provider)
+    .then(result => {
+      console.log(result.user)
+      router.push({ name: 'home' })
+    })
+    .catch(error => {
+      console.log(error.code)
+    })
 }
 </script>
 

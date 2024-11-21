@@ -10,8 +10,30 @@ import Aura from '@primevue/themes/aura'
 import { PrimeIcons } from '@primevue/core/api'
 import { definePreset } from '@primevue/themes'
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app'
+// import { getFireStore } from 'firebase/firestore'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: 'AIzaSyBVmb5OTgZ6OrVmBZwktclYCRYYe_tLS70',
+  authDomain: 'sezam-be.firebaseapp.com',
+  projectId: 'sezam-be',
+  storageBucket: 'sezam-be.firebasestorage.app',
+  messagingSenderId: '479359667152',
+  appId: '1:479359667152:web:0a421ffd362d883ac947d5',
+}
+
+initializeApp(firebaseConfig)
+
+// const db = getFireStore()
+// export default db
+
 const app = createApp(App)
 
+// Initialize pinia store and vue router
 app.use(createPinia())
 app.use(router)
 
