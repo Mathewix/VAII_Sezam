@@ -11,10 +11,10 @@ import { PrimeIcons } from '@primevue/core/api'
 import { definePreset } from '@primevue/themes'
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app'
-// import { getFireStore } from 'firebase/firestore'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+// import { getDatabase } from 'firebase/database'
+import { getFirestore } from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -26,12 +26,11 @@ const firebaseConfig = {
   appId: '1:479359667152:web:0a421ffd362d883ac947d5',
 }
 
-initializeApp(firebaseConfig)
-
-// const db = getFireStore()
-// export default db
+firebase.initializeApp(firebaseConfig)
 
 const app = createApp(App)
+
+export const db = firebase.firestore()
 
 // Initialize pinia store and vue router
 app.use(createPinia())

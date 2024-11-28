@@ -55,30 +55,31 @@
       <h2
         class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
       >
-        Our goals
+        Manage instructors
       </h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rhoncus
-        justo est, mollis dictum augue finibus in. Vivamus erat nulla, mattis
-        nec augue vitae, venenatis mollis erat. Sed at malesuada ipsum. Donec
-        dapibus scelerisque metus, sit amet pellentesque orci ultrices sit amet.
-        Nam sodales tellus eu vehicula dignissim. Cras sodales, risus ut
-        pellentesque ornare, augue arcu efficitur leo, et pharetra leo nunc id
-        ante. Sed rutrum posuere felis tincidunt sollicitudin. Suspendisse
-        viverra augue velit, ac faucibus orci pharetra eget. Vivamus dignissim
-        urna mauris, eget tincidunt erat elementum at. Maecenas quis mi eget
-        lectus ornare iaculis ut ac massa. Fusce eget laoreet est. Integer vel
-        bibendum ante. Sed at malesuada ipsum. Donec dapibus scelerisque metus,
-        sit amet pellentesque orci ultrices sit amet. Nam sodales tellus eu
-        vehicula dignissim.Fusce rhoncus justo est, mollis dictum augue finibus
-        in. Vivamus erat nulla, mattis nec augue vitae, venenatis mollis erat.
-      </p>
+      <Button @click="addInstructor">add</Button>
+      <Button @click="deleteInstructor">delete</Button>
+      <Button @click="updateInstructor">update</Button>
+      <pre>{{ instructors }}</pre>
     </section>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import Button from 'primevue/button'
+import { onMounted, ref } from 'vue'
+import { SezamDb } from '@/db/sezamdb'
+
+const instructors = ref()
+const loading = ref(false)
+
+// Lifecycle hook
+onMounted(async () => {
+  loading.value = true
+  instructors.value = await SezamDb.instructors.get()
+  loading.value = false
+})
+
 const statistics = ref([
   {
     title: '8574',
