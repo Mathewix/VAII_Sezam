@@ -25,10 +25,10 @@
         </div>
         <div class="grid gap-8 md:grid-cols-2">
           <ProfileCard
-            v-for="(item, index) of items"
+            v-for="(item, index) of instructors"
             :key="index"
             :name="item.name"
-            :url="item.url"
+            url="@/images/basic-instructor.png"
             :role="item.role"
             :description="item.description"
           />
@@ -82,78 +82,15 @@ import ProfileCard from '@/components/ProfileCard.vue'
 import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
+import { onMounted } from 'vue'
+import { SezamDb } from '@/db/sezamdb'
 
-const items = ref([
-  {
-    name: 'Anna Müller',
-    url: '@/images/basic-instructor.png',
-    role: 'High School Math Teacher',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.',
-  },
-  {
-    name: 'Michael Schmidt',
-    url: '@/images/basic-instructor.png',
-    role: 'University Physics Professor',
-    description:
-      'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Etiam porta sem.',
-  },
-  {
-    name: 'Sophia Hoffmann',
-    url: '@/images/basic-instructor.png',
-    role: 'Mathematics Research Assistant',
-    description:
-      'Donec sed odio dui. Curabitur blandit tempus porttitor. Maecenas sed diam eget risus varius.',
-  },
-  {
-    name: 'Lucas Fischer',
-    url: '@/images/basic-instructor.png',
-    role: 'IT University Student',
-    description:
-      'Nullam id dolor id nibh ultricies vehicula ut id elit. Fusce dapibus tellus ac cursus.',
-  },
-  {
-    name: 'Emma Wagner',
-    url: '@/images/basic-instructor.png',
-    role: 'High School Physics Student',
-    description:
-      'Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Praesent commodo cursus magna.',
-  },
-  {
-    name: 'Noah Becker',
-    url: '@/images/basic-instructor.png',
-    role: 'Math Department Head',
-    description:
-      'Aenean lacinia bibendum nulla sed consectetur. Cras justo odio, dapibus ac facilisis in.',
-  },
-  {
-    name: 'Lena Weber',
-    url: '@/images/basic-instructor.png',
-    role: 'Physics PhD Candidate',
-    description:
-      'Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.',
-  },
-  {
-    name: 'Maximilian Lehmann',
-    url: '@/images/basic-instructor.png',
-    role: 'University Math Professor',
-    description:
-      'Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.',
-  },
-  {
-    name: 'Mia Schulz',
-    url: '@/images/basic-instructor.png',
-    role: 'Computer Science Student',
-    description:
-      'Etiam porta sem malesuada magna mollis euismod. Vestibulum id ligula porta felis euismod semper.',
-  },
-])
+const instructors = ref()
 const loading = ref(false)
 
-const load = () => {
+onMounted(async () => {
   loading.value = true
-  setTimeout(() => {
-    loading.value = false
-  }, 2000)
-}
+  instructors.value = await SezamDb.instructors.get()
+  loading.value = false
+})
 </script>

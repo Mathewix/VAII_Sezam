@@ -1,77 +1,116 @@
 <template>
   <section class="p-4 sm:p-8">
-    <section>
-      <h1 class="title-classic dark:text-white md:text-4xl">About us</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rhoncus
-        justo est, mollis dictum augue finibus in. Vivamus erat nulla, mattis
-        nec augue vitae, venenatis mollis erat. Sed at malesuada ipsum. Donec
-        dapibus scelerisque metus, sit amet pellentesque orci ultrices sit amet.
-        Nam sodales tellus eu vehicula dignissim. Cras sodales, risus ut
-        pellentesque ornare, augue arcu efficitur leo, et pharetra leo nunc id
-        ante. Sed rutrum posuere felis tincidunt sollicitudin. Suspendisse
-        viverra augue velit, ac faucibus orci pharetra eget. Vivamus dignissim
-        urna mauris, eget tincidunt erat elementum at. Maecenas quis mi eget
-        lectus ornare iaculis ut ac massa. Fusce eget laoreet est. Integer vel
-        bibendum ante. Sed at malesuada ipsum. Donec dapibus scelerisque metus,
-        sit amet pellentesque orci ultrices sit amet. Nam sodales tellus eu
-        vehicula dignissim.Fusce rhoncus justo est, mollis dictum augue finibus
-        in. Vivamus erat nulla, mattis nec augue vitae, venenatis mollis erat.
-      </p>
-    </section>
-
-    <section class="mt-6">
-      <h2
-        class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
-      >
-        Statistics
-      </h2>
-      <p>
-        Štatistiky od založenia <strong>SEZAMu</strong> ku súčastnému roku
-        <strong>2024</strong>
-      </p>
-
-      <!-- grid -->
-      <dl
-        class="grid gap-8 text-gray-900 sm:grid-cols-2 lg:gap-20 lg:mt-8 mt-4 lg:grid-cols-4 dark:text-white"
-      >
-        <!-- card -->
-        <div
-          v-for="stat in statistics"
-          :key="stat.title"
-          class="flex flex-col p-4 hover:border border-slate-300 dark:border-slate-800 rounded-lg hover:bg-slate-100 hover:dark:bg-slate-900"
-        >
-          <dt class="mb-2 text-3xl md:text-4xl font-extrabold tracking-tight">
-            {{ stat.title }}
-          </dt>
-          <dd class="font-light text-gray-500 dark:text-gray-400">
-            {{ stat.description }}
-          </dd>
-        </div>
-      </dl>
-    </section>
-
     <section class="mt-6">
       <h2
         class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
       >
         Manage instructors
       </h2>
-      <Button @click="addInstructor">add</Button>
-      <Button @click="deleteInstructor">delete</Button>
-      <Button @click="updateInstructor">update</Button>
-      <pre>{{ instructors }}</pre>
+      <div class="flex justify-end">
+        <template v-if="!isCreating">
+          <Button class="p-2" @click="isCreating = true">Add</Button>
+        </template>
+        <template v-else>
+          <div class="flex w-full justify-between gap-2">
+            <div class="space-x-4">
+              <InputText
+                v-model="newInstructor.name"
+                placeholder="Name"
+                :invalid="!validName(newInstructor.name)"
+              />
+              <InputText
+                v-model="newInstructor.role"
+                placeholder="Role"
+                :invalid="!newInstructor.role"
+              />
+              <InputText
+                v-model="newInstructor.description"
+                placeholder="Description"
+                :invalid="!newInstructor.description"
+              />
+              <InputText
+                v-model="newInstructor.email"
+                placeholder="E-mail"
+                :invalid="!validEmail(newInstructor.email)"
+              />
+            </div>
+            <div class="space-x-2">
+              <Button @click="isCreating = false">Cancel</Button>
+              <Button @click="createInstructor()">Confirm</Button>
+            </div>
+          </div>
+        </template>
+      </div>
+      <DataTable :value="instructors" class="min-w-96 mt-2">
+        <Column header="Name">
+          <template #body="{ data }">
+            <template v-if="isEditing === data.id">
+              <InputText v-model="data.name" :invalid="!validName(data.name)" />
+            </template>
+            <template v-else>
+              <span>{{ data.name }}</span>
+            </template>
+          </template>
+        </Column>
+        <Column header="Role">
+          <template #body="{ data }">
+            <template v-if="isEditing === data.id">
+              <InputText v-model="data.role" :invalid="!data.role" />
+            </template>
+            <template v-else>
+              <span>{{ data.role }}</span>
+            </template>
+          </template>
+        </Column>
+        <Column header="Description">
+          <template #body="{ data }">
+            <template v-if="isEditing === data.id">
+              <InputText v-model="data.description" />
+            </template>
+            <template v-else>
+              <span>{{ data.description }}</span>
+            </template>
+          </template>
+        </Column>
+        <Column class="w-24 !text-end">
+          <template #body="{ data }">
+            <div class="flex flex-row">
+              <template v-if="isEditing === data.id">
+                <Button class="mr-2" @click="cancelInstructorEdit()"
+                  >Cancel</Button
+                >
+
+                <Button class="mr-2" @click="updateInstructor(data)"
+                  >Confirm</Button
+                >
+              </template>
+              <template v-else>
+                <Button class="mr-2" @click="deleteInstructor(data)"
+                  >Delete</Button
+                >
+                <Button class="mr-2" @click="isEditing = data.id">Edit</Button>
+              </template>
+            </div>
+          </template>
+        </Column>
+      </DataTable>
     </section>
   </section>
 </template>
 
 <script setup>
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
 import Button from 'primevue/button'
+import InputText from 'primevue/inputtext'
 import { onMounted, ref } from 'vue'
 import { SezamDb } from '@/db/sezamdb'
 
 const instructors = ref()
 const loading = ref(false)
+const isEditing = ref()
+const isCreating = ref(false)
+const newInstructor = ref({ name: '', role: '', description: '', email: '' })
 
 // Lifecycle hook
 onMounted(async () => {
@@ -80,22 +119,44 @@ onMounted(async () => {
   loading.value = false
 })
 
-const statistics = ref([
-  {
-    title: '8574',
-    description: 'Úspešných riešiteľov',
-  },
-  {
-    title: '219',
-    description: 'Odborných vedúcich',
-  },
-  {
-    title: '2080',
-    description: 'Unikátnych príkladov',
-  },
-  {
-    title: '117',
-    description: 'Zážitkových sústredení',
-  },
-])
+const deleteInstructor = async instructor => {
+  await SezamDb.deleteInstructor(instructor)
+  instructors.value = await SezamDb.instructors.get()
+}
+
+const updateInstructor = async instructor => {
+  if (!instructor.name && !instructor.role) {
+    await SezamDb.updateInstructor(instructor)
+    instructors.value = await SezamDb.instructors.get()
+    isEditing.value = null
+  }
+}
+
+const createInstructor = async () => {
+  await SezamDb.addInstructor(newInstructor.value)
+  instructors.value = await SezamDb.instructors.get()
+  newInstructor.value = { name: '', role: '', description: '', email: '' }
+  isCreating.value = false
+}
+
+const cancelInstructorEdit = async () => {
+  instructors.value = await SezamDb.instructors.get()
+  isEditing.value = null
+}
+
+const validName = name => {
+  const regex = /^[\p{L}']{2,}(?: [\p{L}']{2,})*$/u
+  return regex.test(name)
+}
+
+const validEmail = email => {
+  const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i
+  return regex.test(email)
+}
 </script>
+
+<style>
+.btn-container {
+  display: flex;
+}
+</style>

@@ -34,25 +34,25 @@ export const SezamDb = {
   },
 
   // Add instructor
-  async addInstructor() {
+  async addInstructor(instructor) {
     const instructorsRef = collection(db, 'Instructors')
-    await addDoc(instructorsRef, {
-      name: 'hahu',
-      role: 'mojo',
-      description: 'je mojo',
-    })
-    //newInstructor.value = { name: '', email: '' } // Reset form
+    await addDoc(instructorsRef, instructor)
   },
 
   // Update instructor
-  async updateInstructor() {
-    const docRef = doc(db, 'Instructors', 'GfJmxrrRWMqWwGTAOoJa')
-    await setDoc(docRef, { name: 'Mojmir' })
+  async updateInstructor(instructor) {
+    const docRef = doc(db, 'Instructors', instructor.id)
+    await setDoc(docRef, {
+      name: instructor.name,
+      role: instructor.role,
+      description: instructor.description,
+      email: instructor.email,
+    })
   },
 
   // Delete instructor
-  async deleteInstructor() {
-    const docRef = doc(db, 'Instructors', 'GfJmxrrRWMqWwGTAOoJa')
+  async deleteInstructor(instructor) {
+    const docRef = doc(db, 'Instructors', instructor.id)
     await deleteDoc(docRef)
   },
 }
