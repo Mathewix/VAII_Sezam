@@ -8,7 +8,12 @@
       </h2>
       <div class="flex justify-end">
         <template v-if="!isCreating">
-          <Button class="p-2" @click="isCreating = true">Add</Button>
+          <Button
+            label="Add"
+            icon="pi pi-plus"
+            class="p-2"
+            @click="isCreating = true"
+          />
         </template>
         <template v-else>
           <div class="flex w-full justify-between gap-2">
@@ -26,7 +31,6 @@
               <InputText
                 v-model="newInstructor.description"
                 placeholder="Description"
-                :invalid="!newInstructor.description"
               />
               <InputText
                 v-model="newInstructor.email"
@@ -35,8 +39,22 @@
               />
             </div>
             <div class="space-x-2">
-              <Button @click="isCreating = false">Cancel</Button>
-              <Button @click="createInstructor()">Confirm</Button>
+              <Button
+                label="Confirm"
+                icon="pi pi-check"
+                :disabled="
+                  !validName(newInstructor.name) ||
+                  !validEmail(newInstructor.email) ||
+                  !newInstructor.role
+                "
+                severity="success"
+                @click="createInstructor()"
+              />
+              <Button
+                label="Cancel"
+                icon="pi pi-times"
+                @click="isCreating = false"
+              />
             </div>
           </div>
         </template>
@@ -72,23 +90,56 @@
             </template>
           </template>
         </Column>
+        <Column header="Email">
+          <template #body="{ data }">
+            <template v-if="isEditing === data.id">
+              <InputText
+                v-model="data.email"
+                :invalid="!validEmail(data.email)"
+              />
+            </template>
+            <template v-else>
+              <span>{{ data.email }}</span>
+            </template>
+          </template>
+        </Column>
         <Column class="w-24 !text-end">
           <template #body="{ data }">
             <div class="flex flex-row">
               <template v-if="isEditing === data.id">
-                <Button class="mr-2" @click="cancelInstructorEdit()"
-                  >Cancel</Button
-                >
-
-                <Button class="mr-2" @click="updateInstructor(data)"
-                  >Confirm</Button
-                >
+                <Button
+                  label="Confirm"
+                  icon="pi pi-check"
+                  :disabled="
+                    !validName(data.name) ||
+                    !validEmail(data.email) ||
+                    !data.role
+                  "
+                  severity="success"
+                  class="mr-2"
+                  @click="updateInstructor(data)"
+                />
+                <Button
+                  label="Cancel"
+                  icon="pi pi-times"
+                  class="mr-2"
+                  @click="cancelInstructorEdit()"
+                />
               </template>
               <template v-else>
-                <Button class="mr-2" @click="deleteInstructor(data)"
-                  >Delete</Button
-                >
-                <Button class="mr-2" @click="isEditing = data.id">Edit</Button>
+                <Button
+                  label="Edit"
+                  icon="pi pi-pencil"
+                  class="mr-2"
+                  @click="isEditing = data.id"
+                />
+                <Button
+                  label="Delete"
+                  icon="pi pi-trash"
+                  class="mr-2"
+                  @click="deleteInstructor(data)"
+                  severity="danger"
+                />
               </template>
             </div>
           </template>
@@ -125,11 +176,9 @@ const deleteInstructor = async instructor => {
 }
 
 const updateInstructor = async instructor => {
-  if (!instructor.name && !instructor.role) {
-    await SezamDb.updateInstructor(instructor)
-    instructors.value = await SezamDb.instructors.get()
-    isEditing.value = null
-  }
+  await SezamDb.updateInstructor(instructor)
+  instructors.value = await SezamDb.instructors.get()
+  isEditing.value = null
 }
 
 const createInstructor = async () => {
@@ -154,9 +203,3 @@ const validEmail = email => {
   return regex.test(email)
 }
 </script>
-
-<style>
-.btn-container {
-  display: flex;
-}
-</style>
