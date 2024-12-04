@@ -48,7 +48,7 @@
                   !newInstructor.role
                 "
                 severity="success"
-                @click="createInstructor()"
+                @click="createInstructorButton()"
               />
               <Button
                 label="Cancel"
@@ -117,7 +117,7 @@
                   "
                   severity="success"
                   class="mr-2"
-                  @click="updateInstructor(data)"
+                  @click="updateInstructorButton(data)"
                 />
                 <Button
                   label="Cancel"
@@ -137,7 +137,7 @@
                   label="Delete"
                   icon="pi pi-trash"
                   class="mr-2"
-                  @click="deleteInstructor(data)"
+                  @click="deleteInstructorButton(data)"
                   severity="danger"
                 />
               </template>
@@ -155,7 +155,12 @@ import Column from 'primevue/column'
 import Button from 'primevue/button'
 import InputText from 'primevue/inputtext'
 import { onMounted, ref } from 'vue'
-import { SezamDb } from '@/db/sezamdb'
+import {
+  getInstructors,
+  createInstructor,
+  updateInstructor,
+  deleteInstructor,
+} from '@/api'
 
 const instructors = ref()
 const loading = ref(false)
@@ -166,30 +171,30 @@ const newInstructor = ref({ name: '', role: '', description: '', email: '' })
 // Lifecycle hook
 onMounted(async () => {
   loading.value = true
-  instructors.value = await SezamDb.instructors.get()
+  instructors.value = await getInstructors()
   loading.value = false
 })
 
-const deleteInstructor = async instructor => {
-  await SezamDb.deleteInstructor(instructor)
-  instructors.value = await SezamDb.instructors.get()
+const deleteInstructorButton = async instructor => {
+  await deleteInstructor(instructor)
+  instructors.value = await getInstructors()
 }
 
-const updateInstructor = async instructor => {
-  await SezamDb.updateInstructor(instructor)
-  instructors.value = await SezamDb.instructors.get()
+const updateInstructorButton = async instructor => {
+  await updateInstructor(instructor)
+  instructors.value = await getInstructors()
   isEditing.value = null
 }
 
-const createInstructor = async () => {
-  await SezamDb.addInstructor(newInstructor.value)
-  instructors.value = await SezamDb.instructors.get()
+const createInstructorButton = async () => {
+  await createInstructor(newInstructor.value)
+  instructors.value = await getInstructors()
   newInstructor.value = { name: '', role: '', description: '', email: '' }
   isCreating.value = false
 }
 
 const cancelInstructorEdit = async () => {
-  instructors.value = await SezamDb.instructors.get()
+  instructors.value = await getInstructors()
   isEditing.value = null
 }
 

@@ -1,4 +1,11 @@
-import { db } from '@/main'
+// Import the functions you need from the SDKs you need
+import firebase from 'firebase/compat/app'
+import 'firebase/compat/firestore'
+// import { getDatabase } from 'firebase/database'
+//import { getFirestore } from 'firebase/firestore'
+
+// Your web app's Firebase configuration
+
 import {
   collection,
   doc,
@@ -7,6 +14,19 @@ import {
   setDoc,
   deleteDoc,
 } from 'firebase/firestore'
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: 'AIzaSyBVmb5OTgZ6OrVmBZwktclYCRYYe_tLS70',
+  authDomain: 'sezam-be.firebaseapp.com',
+  projectId: 'sezam-be',
+  storageBucket: 'sezam-be.firebasestorage.app',
+  messagingSenderId: '479359667152',
+  appId: '1:479359667152:web:0a421ffd362d883ac947d5',
+}
+
+firebase.initializeApp(firebaseConfig)
+
+const db = firebase.firestore()
 
 export const SezamDb = {
   instructors: {
