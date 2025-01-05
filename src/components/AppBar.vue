@@ -74,6 +74,12 @@ const items = ref([
     route: '/users',
     requiresAuth: true,
   },
+  {
+    label: 'Instructors',
+    icon: 'pi pi-users',
+    route: '/instructors',
+    requiresAuth: true,
+  },
 ])
 
 const isLoggedIn = ref(false)

@@ -83,14 +83,16 @@ import InputText from 'primevue/inputtext'
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
 import { onMounted } from 'vue'
-import { SezamDb } from '@/db/sezamdb'
+import {
+  getInstructors,
+} from '@/api'
 
 const instructors = ref()
 const loading = ref(false)
 
 onMounted(async () => {
   loading.value = true
-  instructors.value = await SezamDb.instructors.get()
+  instructors.value = await getInstructors()
   loading.value = false
 })
 </script>

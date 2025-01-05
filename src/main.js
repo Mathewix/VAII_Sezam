@@ -29,6 +29,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig)
 const app = createApp(App)
 // Initialize pinia store and vue router
+
+
+
 app.use(createPinia())
 app.use(router)
 
