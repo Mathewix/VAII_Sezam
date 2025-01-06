@@ -49,16 +49,29 @@ app.get('/users', async (req, res) => {
   }
 })
 
-
-// POST route to set admin role
-app.post('/setRole', async (req, res) => {
-  const { uid, isAdmin } = req.body
+// GET route to fetch the role of a user
+app.get('/getUserRole', async (req, res) => {
+  const { uid } = req.query
 
   try {
-    await admin.auth().setCustomUserClaims(uid, { admin: isAdmin })
+    const userRole = await SezamDb.userRoles.getRole(uid)
+    res.status(200).json({ role: userRole })
+  } catch (error) {
+    console.error('Error fetching user role:', error)
+    res.status(500).json({ msg: 'Failed to fetch user role', error: error.message })
+  }
+})
+
+// POST route to set roles
+app.post('/setRole', async (req, res) => {
+  const { uid, role } = req.body
+
+  try {
+    await admin.auth().setCustomUserClaims(uid, { role })
+    await SezamDb.userRoles.setRole(uid, role)
     res.status(200).json({ msg: 'User role updated successfully' })
   } catch (error) {
-    console.error('Error setting admin role:', error)
+    console.error('Error setting user role:', error)
     res.status(500).json({ msg: 'Failed to update user role', error: error.message })
   }
 })

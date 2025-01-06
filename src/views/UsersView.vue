@@ -52,6 +52,6 @@ import Column from 'primevue/column'
   })
     const updateRole = (user, role) => {
       user.role = role;
-      setRole(user, role);
+      setRole(user.uid, role);
     }
     </script>

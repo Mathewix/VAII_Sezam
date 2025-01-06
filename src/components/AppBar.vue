@@ -45,7 +45,11 @@
 import { onMounted, ref } from 'vue'
 import Menubar from 'primevue/menubar'
 import Button from 'primevue/button'
+import { useRouter, useRoute } from 'vue-router'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+
+const router = useRouter()
+const route = useRoute()
 
 const items = ref([
   {
@@ -72,13 +76,13 @@ const items = ref([
     label: 'Users',
     icon: 'pi pi-user',
     route: '/users',
-    requiresAuth: true,
+    requiresAuth: 'admin',
   },
   {
     label: 'Instructors',
     icon: 'pi pi-users',
     route: '/instructors',
-    requiresAuth: true,
+    requiresAuth: 'instructor',
   },
 ])
 
@@ -97,6 +101,10 @@ const logout = () => {
     .then(() => {
       console.log('User logged out')
       isLoggedIn.value = false // Hide auth-required menu items
+      // if page requires auth, redirect to home
+      if (route.meta.requiresAuth) {
+        router.push({ name: 'home' });
+      }
     })
     .catch(error => {
       console.error('Logout failed:', error)

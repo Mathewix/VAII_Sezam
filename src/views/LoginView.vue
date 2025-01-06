@@ -69,7 +69,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Divider from 'primevue/divider'
@@ -107,8 +107,17 @@ const login = () => {
       }
     })
 }
-const loginWithGoogle = () => {
-  console.log('google')
+const loginWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    console.log(result.user);
+    router.push({ name: 'home' });
+  } catch (error) {
+    console.log(error.code);
+    errorMsg.value = 'Failed to sign in with Google';
+  }
 }
 </script>
 

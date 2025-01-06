@@ -77,35 +77,36 @@ import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Divider from 'primevue/divider'
 import { useRouter } from 'vue-router'
+import { setRole } from '@/api'
 
 const router = useRouter()
 
 const email = ref('')
 const password = ref('')
 
-const register = () => {
+const register = async () => {
   const auth = getAuth()
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(data => {
-      console.log(data)
-      console.log(auth.currentUser)
-      router.push({ name: 'home' })
-    })
-    .catch(error => {
-      console.log(error.code)
-      alert(error.message)
-    })
+  try {
+    const data = await createUserWithEmailAndPassword(auth, email.value, password.value)
+    console.log(data)
+    console.log(auth.currentUser)
+    await setRole(auth.currentUser.uid, 'viewer')
+    router.push({ name: 'home' })
+  } catch (error) {
+    console.log(error.code)
+    alert(error.message)
+  }
 }
-const registerWithGoogle = () => {
+const registerWithGoogle = async () => {
   const provider = new GoogleAuthProvider()
-  signInWithPopup(getAuth(), provider)
-    .then(result => {
-      console.log(result.user)
-      router.push({ name: 'home' })
-    })
-    .catch(error => {
-      console.log(error.code)
-    })
+  try {
+    const result = await signInWithPopup(getAuth(), provider)
+    console.log(result.user)
+    await setRole(result.user.uid, 'viewer')
+    router.push({ name: 'home' })
+  } catch (error) {
+    console.log(error.code)
+  }
 }
 </script>
 

@@ -14,16 +14,31 @@ export const getUsers = async () => {
   }
 }
 
-export const setRole = async (user, role) => {
+export const setRole = async (uid, role) => {
   try {
     await axios.post(url + '/setRole', {
-      uid: user.uid,
+      uid: uid,
       role: role, // Selected role
-    })
-    alert(`User role updated to ${user.role}`)
+    });
+    console.log(`User role updated to ${role}`);
   } catch (error) {
-    console.error('Error updating role:', error)
-    alert('Failed to update role!')
+    console.error('Error updating role:', error);
+    alert('Failed to update role!');
+  }
+};
+
+export const getUserRole = async uid => {
+  try {
+    const result = await axios.get(url + '/getUserRole', {
+      params: {
+        uid: uid,
+      },
+    });
+    console.log('THE RESULT: ', result);
+    return result.data.role;
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 }
 

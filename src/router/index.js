@@ -1,5 +1,6 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory } from 'vue-router'
+import { getUserRole } from '@/api'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +40,7 @@ const router = createRouter({
       name: 'instructors',
       component: () => import('../views/InstructorsView.vue'),
       meta: {
-        requiresAuth: true,
+        requiresAuth: 'editor',
       },
     },
     {
@@ -47,7 +48,7 @@ const router = createRouter({
       name: 'users',
       component: () => import('../views/UsersView.vue'),
       meta: {
-        requiresAuth: true,
+        requiresAuth: 'admin',
       },
     },
   ],
@@ -67,9 +68,28 @@ const getCurrentUser = () => {
 }
 
 router.beforeEach(async (to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // User is logged in
-    if (await getCurrentUser()) {
+  const user = await getCurrentUser()
+  const userRole = await getUserRole(user.uid)
+  if (to.matched.some(record => record.meta.requiresAuth === 'admin')) {
+    // User is logged in\
+    if (userRole === 'admin') {
+      console.log('User is role ' + userRole)
+      next()
+    } else {
+      alert('You need to be an admin to access')
+      next({ name: 'home' })
+    }
+  } else if (to.matched.some(record => record.meta.requiresAuth === 'editor')) {
+    if (userRole === 'editor' || userRole === 'admin') {
+      console.log('User is role ' + userRole)
+      next()
+    } else {
+      alert('You need to be an instructor to access')
+      next({ name: 'home' })
+    }
+  } else if (to.matched.some(record => record.meta.requiresAuth === 'viewer')) {
+    if (user) {
+      console.log('User is role ' + userRole)
       next()
     } else {
       alert('Log in to access')
