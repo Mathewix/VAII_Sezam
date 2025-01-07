@@ -69,15 +69,18 @@ const getCurrentUser = () => {
 
 router.beforeEach(async (to, from, next) => {
   const user = await getCurrentUser()
-  const userRole = await getUserRole(user.uid)
+  let userRole;
+  // User is logged in\
+  if (user) {
+    userRole = await getUserRole(user.uid)
+  }
   if (to.matched.some(record => record.meta.requiresAuth === 'admin')) {
-    // User is logged in\
     if (userRole === 'admin') {
       console.log('User is role ' + userRole)
       next()
     } else {
       alert('You need to be an admin to access')
-      next({ name: 'home' })
+      next({ name: from.name })
     }
   } else if (to.matched.some(record => record.meta.requiresAuth === 'editor')) {
     if (userRole === 'editor' || userRole === 'admin') {
@@ -85,7 +88,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       alert('You need to be an instructor to access')
-      next({ name: 'home' })
+      next({ name: from.name })
     }
   } else if (to.matched.some(record => record.meta.requiresAuth === 'viewer')) {
     if (user) {
@@ -93,7 +96,7 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       alert('Log in to access')
-      next({ name: 'home' })
+      next({ name: from.name })
     }
   } else {
     next()

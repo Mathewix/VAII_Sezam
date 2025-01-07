@@ -47,6 +47,7 @@ import Menubar from 'primevue/menubar'
 import Button from 'primevue/button'
 import { useRouter, useRoute } from 'vue-router'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+import { getUserRole } from '@/api'
 
 const router = useRouter()
 const route = useRoute()
@@ -87,17 +88,19 @@ const items = ref([
 ])
 
 const isLoggedIn = ref(false)
+const role = ref('')
+const auth = ref()
 
-let auth
 onMounted(() => {
-  auth = getAuth()
-  onAuthStateChanged(auth, user => {
+  auth.value = getAuth()
+  onAuthStateChanged(auth.value, user => {
     isLoggedIn.value = !!user // Set true if user exists, false otherwise
+    getCurrentUsersRole()
   })
 })
 
 const logout = () => {
-  signOut(auth)
+  signOut(auth.value)
     .then(() => {
       console.log('User logged out')
       isLoggedIn.value = false // Hide auth-required menu items
@@ -110,4 +113,15 @@ const logout = () => {
       console.error('Logout failed:', error)
     })
 }
+
+const getCurrentUsersRole = async () => {
+  auth.value = getAuth()
+  const user = auth.value.currentUser
+  if (user) {
+    role.value = await getUserRole(user.uid)
+    console.log("ROLE is: ", role.value)
+  }
+}
+
+
 </script>
