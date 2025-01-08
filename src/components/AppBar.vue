@@ -5,7 +5,7 @@
         <img src="/images/sezam-logo.png" alt="SEZAM Logo" class="sezam-logo" />
       </template>
       <template #item="{ item, props, hasSubmenu }">
-        <div v-if="!item.requiresAuth || (item.requiresAuth && isLoggedIn)">
+        <div v-if="!item.requiresAuth || (item.requiresAuth && isAuthorized(item.requiresAuth))">
           <router-link
             v-if="item.route"
             v-slot="{ href, navigate }"
@@ -83,7 +83,7 @@ const items = ref([
     label: 'Instructors',
     icon: 'pi pi-users',
     route: '/instructors',
-    requiresAuth: 'instructor',
+    requiresAuth: 'editor',
   },
 ])
 
@@ -103,7 +103,8 @@ const logout = () => {
   signOut(auth.value)
     .then(() => {
       console.log('User logged out')
-      isLoggedIn.value = false // Hide auth-required menu items
+      getCurrentUsersRole()
+      isLoggedIn.value = false
       // if page requires auth, redirect to home
       if (route.meta.requiresAuth) {
         router.push({ name: 'home' });
@@ -123,5 +124,14 @@ const getCurrentUsersRole = async () => {
   }
 }
 
+const isAuthorized = (requirement) => {
+  if (isLoggedIn.value) {
+    return role.value === 'admin' || 
+           (requirement === 'editor' && role.value === 'editor') || 
+           (requirement === 'viewer' && role.value === 'viewer')
+  } else {
+    return false
+  }
+}
 
 </script>
