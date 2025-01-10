@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/firestore'
-import admin from 'firebase-admin';
+import admin from 'firebase-admin'
 // import { getDatabase } from 'firebase/database'
 //import { getFirestore } from 'firebase/firestore'
 
@@ -15,6 +15,8 @@ import {
   setDoc,
   getDoc,
   deleteDoc,
+  query,
+  where,
 } from 'firebase/firestore'
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -34,28 +36,30 @@ export const SezamDb = {
   users: {
     async get() {
       try {
-        let nextPageToken;
-        let allUsers = [];
+        let nextPageToken
+        let allUsers = []
 
         do {
-          const listUsersResult = await admin.auth().listUsers(1000, nextPageToken);
-          allUsers = allUsers.concat(listUsersResult.users);
-          nextPageToken = listUsersResult.pageToken;
-        } while (nextPageToken);
+          const listUsersResult = await admin
+            .auth()
+            .listUsers(1000, nextPageToken)
+          allUsers = allUsers.concat(listUsersResult.users)
+          nextPageToken = listUsersResult.pageToken
+        } while (nextPageToken)
 
-        console.log('Successfully fetched all users:', allUsers);
+        console.log('Successfully fetched all users:', allUsers)
 
-        return allUsers;
+        return allUsers
       } catch (error) {
-        console.error('Error listing users:', error);
+        console.error('Error listing users:', error)
       }
-    }
+    },
   },
-  userRoles: { 
+  userRoles: {
     async setRole(uid, role) {
       const rolesRef = doc(collection(db, 'user roles'), uid)
       await setDoc(rolesRef, { role })
-  },
+    },
     async getRole(uid) {
       const rolesRef = doc(collection(db, 'user roles'), uid)
       const docSnap = await getDoc(rolesRef)
@@ -64,8 +68,8 @@ export const SezamDb = {
       } else {
         return null
       }
-    }
-},
+    },
+  },
   instructors: {
     async get() {
       const instructorsRef = collection(db, 'Instructors')
@@ -111,5 +115,74 @@ export const SezamDb = {
   async deleteInstructor(instructor) {
     const docRef = doc(db, 'Instructors', instructor.id)
     await deleteDoc(docRef)
+  },
+
+  contestants: {
+    async get() {
+      console.log('Fetching contestants')
+      const contestantsRef = collection(db, 'Contestants')
+      console.log('Contestants ref', contestantsRef)
+
+      return new Promise((resolve, reject) => {
+        const unsubscribe = onSnapshot(
+          contestantsRef,
+          snapshot => {
+            const contestants = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+            resolve(contestants)
+            unsubscribe()
+          },
+          error => {
+            reject(error)
+          },
+        )
+      })
+    },
+  },
+
+  results: {
+    async get(year, set) {
+      const resultsRef = collection(db, 'results')
+
+      return new Promise((resolve, reject) => {
+        const unsubscribe = onSnapshot(
+          query(resultsRef, where('year', '==', year), where('set', '==', set)),
+          snapshot => {
+            const results = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+            resolve(results)
+            unsubscribe()
+          },
+          error => {
+            reject(error)
+          },
+        )
+      })
+    },
+    // async get() {
+    //   const resultsRef = collection(db, 'results')
+    //   console.log("Fetching: ", resultsRef)
+
+    //   return new Promise((resolve, reject) => {
+    //     const unsubscribe = onSnapshot(
+    //       //query(resultsRef, where('year', '==', year), where('set', '==', set)),
+    //       snapshot => {
+    //         const results = snapshot.docs.map(doc => ({
+    //           id: doc.id,
+    //           ...doc.data(),
+    //         }))
+    //         resolve(results)
+    //         unsubscribe()
+    //       },
+    //       error => {
+    //         reject(error)
+    //       },
+    //     )
+    //   })
+    // },
   },
 }

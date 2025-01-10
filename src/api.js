@@ -87,4 +87,31 @@ export const deleteInstructor = async instructor => {
   }
 }
 
+// Contestants
+export const getContestants = async () => {
+  try {
+    const result = await axios.get(url + '/contestants')
+    console.log('Contestants: ', result)
+    return result.data
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}
 
+// Results
+export const getResults = async () => {
+  try {
+    const result = await axios.get(url + '/results', {
+      params: {
+        year: 2024,
+        set: "W1",
+      },
+    })
+    console.log('THE RESULT: ', result)
+    return result.data
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}

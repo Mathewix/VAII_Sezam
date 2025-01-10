@@ -34,6 +34,9 @@ const router = createRouter({
       path: '/galery',
       name: 'galery',
       component: () => import('../views/GaleryView.vue'),
+      meta: {
+        requiresAuth: 'viewer',
+      },
     },
     {
       path: '/instructors',
@@ -50,6 +53,11 @@ const router = createRouter({
       meta: {
         requiresAuth: 'admin',
       },
+    },
+    {
+      path: '/ranking',
+      name: 'ranking',
+      component: () => import('../views/RankingView.vue'),
     },
   ],
 })

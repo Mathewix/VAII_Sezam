@@ -156,6 +156,36 @@ app.post('/deleteInstructor', async (req, res) => {
   }
 })
 
+// Contestants
+// GET route to fetch the list of contestants
+app.get('/contestants', async (req, res) => {
+  try {
+    const docs = await SezamDb.contestants.get()
+    res.status(200).json(docs)
+  } catch (error) {
+    console.error('Error fetching contestants:', error)
+    res
+      .status(500)
+      .json({ msg: 'Failed to fetch contestants', error: error.message })
+  }
+})
+
+// Results
+// GET route to fetch the list of results
+app.get('/results', async (req, res) => {
+  const { year, set } = req.query
+  const numberYear = parseInt(year, 10);
+  try {
+    const docs = await SezamDb.results.get(numberYear, set)
+    res.status(200).json(docs)
+  } catch (error) {
+    console.error('Error fetching results:', error)
+    res
+      .status(500)
+      .json({ msg: 'Failed to fetch results', error: error.message })
+  }
+})
+
 // Start the server
 const PORT = 5000
 app.listen(PORT, () => {

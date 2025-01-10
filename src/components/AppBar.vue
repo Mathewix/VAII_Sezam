@@ -62,6 +62,7 @@ const items = ref([
     label: 'Galery',
     icon: 'pi pi-image',
     route: '/galery',
+    requiresAuth: 'viewer',
   },
   {
     label: 'About',
@@ -85,6 +86,11 @@ const items = ref([
     route: '/instructors',
     requiresAuth: 'editor',
   },
+  {
+    label: 'Rankings',
+    icon: 'pi pi-chart-bar',
+    route: '/ranking',
+  }
 ])
 
 const isLoggedIn = ref(false)

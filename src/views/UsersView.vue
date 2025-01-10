@@ -11,7 +11,7 @@
           </Column>
           <Column header="Name">
             <template #body="{ data }">
-              <span>{{ data.displayName }}</span>
+              <span>{{ data.displayName ?? data.email }}</span>
             </template>
           </Column>
           <Column header="Email">
