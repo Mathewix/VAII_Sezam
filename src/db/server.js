@@ -173,16 +173,62 @@ app.get('/contestants', async (req, res) => {
 // Results
 // GET route to fetch the list of results
 app.get('/results', async (req, res) => {
-  const { year, set } = req.query
-  const numberYear = parseInt(year, 10);
+  //const { year, set } = req.query
+  //const numberYear = parseInt(year, 10);
   try {
-    const docs = await SezamDb.results.get(numberYear, set)
+    const docs = await SezamDb.results.get()
     res.status(200).json(docs)
   } catch (error) {
     console.error('Error fetching results:', error)
     res
       .status(500)
       .json({ msg: 'Failed to fetch results', error: error.message })
+  }
+})
+
+// POST route to add a result
+app.post('/addResult', async (req, res) => {
+  const data = req.body
+
+  // Validate input
+  if (!data.year || !data.set || !data.contestant) {
+    return res.status(400).json({ msg: 'Requires year, set and corresponding contestants id' })
+  }
+
+  try {
+    // Use SezamDb to add the result
+    await SezamDb.results.add(data)
+    res
+      .status(201)
+      .json({ msg: 'Result added successfully', result: data })
+  } catch (error) {
+    console.error('Error adding result:', error)
+    res
+      .status(500)
+      .json({ msg: 'Failed to add result', error: error.message })
+  }
+})
+
+// POST route to add a contestant
+app.post('/addContestant', async (req, res) => {
+  const data = req.body
+
+  // Validate input
+  if (!data.Name || !data.Grade || !data.City || !data.Surname) {
+    return res.status(400).json({ msg: 'Requires name, surname, city and grade' })
+  }
+
+  try {
+    // Use SezamDb to add the contestant
+    await SezamDb.contestants.add(data)
+    res
+      .status(201)
+      .json({ msg: 'Contestant added successfully', contestant: data })
+  } catch (error) {
+    console.error('Error adding contestant:', error)
+    res
+      .status(500)
+      .json({ msg: 'Failed to add contestant', error: error.message })
   }
 })
 

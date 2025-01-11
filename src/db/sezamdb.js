@@ -15,8 +15,9 @@ import {
   setDoc,
   getDoc,
   deleteDoc,
-  query,
   where,
+  getDocs,
+  query,
 } from 'firebase/firestore'
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -140,15 +141,34 @@ export const SezamDb = {
         )
       })
     },
+
+    async add(contestant) {
+      const contestantsRef = collection(db, 'Contestants')
+
+      const duplicateQuery = query(
+        contestantsRef,
+        where('Email', '==', contestant.Email),
+        where('Name', '==', contestant.Name),
+        where('Surname', '==', contestant.Surname),
+      );
+      const querySnapshot = await getDocs(duplicateQuery);
+
+      if (!querySnapshot.empty) {
+        throw new Error('Contestant with same email, name and surname already exists');
+      }
+
+      await addDoc(contestantsRef, contestant)
+    }
   },
 
   results: {
-    async get(year, set) {
+    async get() {
       const resultsRef = collection(db, 'results')
 
       return new Promise((resolve, reject) => {
         const unsubscribe = onSnapshot(
-          query(resultsRef, where('year', '==', year), where('set', '==', set)),
+          resultsRef,
+          //query(resultsRef, where('year', '==', year), where('set', '==', set)), // Filter by year and set
           snapshot => {
             const results = snapshot.docs.map(doc => ({
               id: doc.id,
@@ -163,26 +183,24 @@ export const SezamDb = {
         )
       })
     },
-    // async get() {
-    //   const resultsRef = collection(db, 'results')
-    //   console.log("Fetching: ", resultsRef)
 
-    //   return new Promise((resolve, reject) => {
-    //     const unsubscribe = onSnapshot(
-    //       //query(resultsRef, where('year', '==', year), where('set', '==', set)),
-    //       snapshot => {
-    //         const results = snapshot.docs.map(doc => ({
-    //           id: doc.id,
-    //           ...doc.data(),
-    //         }))
-    //         resolve(results)
-    //         unsubscribe()
-    //       },
-    //       error => {
-    //         reject(error)
-    //       },
-    //     )
-    //   })
-    // },
+    async add(result) {
+      const resultsRef = collection(db, 'results');
+    
+      // Define the query to check for duplicates
+      const duplicateQuery = query(
+        resultsRef,
+        where('year', '==', result.year),
+        where('set', '==', result.set),
+        where('contestant', '==', result.contestant)
+      );
+      const querySnapshot = await getDocs(duplicateQuery);
+
+      if (!querySnapshot.empty) {
+        throw new Error('Result with the same year, set, and contestant already exists');
+      }
+
+      await addDoc(resultsRef, result);
+    },
   },
 }

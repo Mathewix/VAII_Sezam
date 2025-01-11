@@ -6,7 +6,7 @@ const url = 'http://localhost:5000'
 export const getUsers = async () => {
   try {
     const result = await axios.get(url + '/users')
-    console.log('THE RESULT: ', result)
+    console.log('Users: ', result)
     return result.data
   } catch (error) {
     console.error(error)
@@ -34,7 +34,7 @@ export const getUserRole = async uid => {
         uid: uid,
       },
     });
-    console.log('THE RESULT: ', result);
+    console.log('User role: ', result);
     return result.data.role;
   } catch (error) {
     console.error(error);
@@ -46,7 +46,7 @@ export const getUserRole = async uid => {
 export const getInstructors = async () => {
   try {
     const result = await axios.get(url + '/instructors')
-    console.log('THE RESULT: ', result)
+    console.log('Instructors: ', result)
     return result.data
   } catch (error) {
     console.error(error)
@@ -57,7 +57,7 @@ export const getInstructors = async () => {
 export const createInstructor = async instructor => {
   try {
     const result = await axios.post(url + '/createInstructor', instructor)
-    console.log('THE RESULT: ', result)
+    console.log('Added instructor: ', result)
     return result.data
   } catch (error) {
     console.error(error)
@@ -68,7 +68,7 @@ export const createInstructor = async instructor => {
 export const updateInstructor = async instructor => {
   try {
     const result = await axios.post(url + '/updateInstructor', instructor)
-    console.log('THE RESULT: ', result)
+    console.log('Updated instructor: ', result)
     return result.data
   } catch (error) {
     console.error(error)
@@ -79,7 +79,7 @@ export const updateInstructor = async instructor => {
 export const deleteInstructor = async instructor => {
   try {
     const result = await axios.post(url + '/deleteInstructor', instructor)
-    console.log('THE RESULT: ', result)
+    console.log('Deleted instrucotr: ', result)
     return result.data
   } catch (error) {
     console.error(error)
@@ -99,19 +99,37 @@ export const getContestants = async () => {
   }
 }
 
+export const addContestant = async contestant => {
+  try {
+    const result = await axios.post(url + '/addContestant', contestant)
+    console.log('Added contestant: ', result)
+    return result.data
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
 // Results
 export const getResults = async () => {
   try {
-    const result = await axios.get(url + '/results', {
-      params: {
-        year: 2024,
-        set: "W1",
-      },
-    })
-    console.log('THE RESULT: ', result)
+    const result = await axios.get(url + '/results')
+    console.log('The results: ', result)
     return result.data
   } catch (error) {
     console.error(error)
     return []
+  }
+}
+
+
+export const addResult = async resultData => {
+  try {
+    const result = await axios.post(url + '/addResult', resultData)
+    console.log('Added result: ', result)
+    return result.data
+  } catch (error) {
+    console.error(error)
+    return null
   }
 }
