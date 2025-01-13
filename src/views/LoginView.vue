@@ -23,13 +23,13 @@
           <Button
             label="Login"
             icon="pi pi-user"
-            class="w-full max-w-[17.35rem] mx-auto"
+            class="w-full max-w-[17.35rem] mx-auto font-bold"
             @click="login"
           ></Button>
           <Button
             label="Sign in with Google"
             icon="pi pi-google"
-            class="w-full max-w-[17.35rem] mx-auto"
+            class="w-full max-w-[17.35rem] mx-auto font-bold"
             @click="loginWithGoogle"
           ></Button>
         </div>
@@ -59,7 +59,7 @@
           label="Sign Up"
           icon="pi pi-user-plus"
           severity="success"
-          class="w-full max-w-[17.35rem] mx-auto"
+          class="w-full max-w-[17.35rem] mx-auto font-bold"
           @click="router.push({ name: 'register' })"
         ></Button>
       </div>

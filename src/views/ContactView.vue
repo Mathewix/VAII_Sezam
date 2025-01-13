@@ -69,6 +69,7 @@
           label="Send message"
           icon="pi pi-send"
           :loading="loading"
+          class="font-bold"
           @click="load"
         />
       </div>

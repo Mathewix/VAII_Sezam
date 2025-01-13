@@ -48,11 +48,13 @@
                   !newInstructor.role
                 "
                 severity="success"
+                class="font-bold"
                 @click="createInstructorButton()"
               />
               <Button
                 label="Cancel"
                 icon="pi pi-times"
+                class="font-bold"
                 @click="isCreating = false"
               />
             </div>
@@ -116,13 +118,13 @@
                     !data.role
                   "
                   severity="success"
-                  class="mr-2"
+                  class="font-bold mr-2"
                   @click="updateInstructorButton(data)"
                 />
                 <Button
                   label="Cancel"
                   icon="pi pi-times"
-                  class="mr-2"
+                  class="font-bold mr-2"
                   @click="cancelInstructorEdit()"
                 />
               </template>
@@ -130,13 +132,13 @@
                 <Button
                   label="Edit"
                   icon="pi pi-pencil"
-                  class="mr-2"
+                  class="font-bold mr-2"
                   @click="isEditing = data.id"
                 />
                 <Button
                   label="Delete"
                   icon="pi pi-trash"
-                  class="mr-2"
+                  class="font-bold mr-2"
                   @click="deleteInstructorButton(data)"
                   severity="danger"
                 />

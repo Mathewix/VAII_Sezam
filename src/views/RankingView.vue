@@ -61,6 +61,7 @@
                   text
                   size="small"
                   icon="pi pi-plus"
+                  class="font-bold"
                   @click="isCreatingContestant = true"
                 />
               </div>
@@ -70,10 +71,9 @@
           <Button
             icon="pi pi-plus"
             label="Add Result"
+            class="font-bold"
             @click="addContestantResult()"
-            class=""
           />
-          <Button label="Edit" @click="edditing = !edditing" class="" />
         </div>
       </div>
 

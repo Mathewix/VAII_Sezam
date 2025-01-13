@@ -32,10 +32,10 @@
       </template>
       <template #end>
         <RouterLink v-if="!isLoggedIn" :to="{ name: 'login' }">
-          <Button> Login </Button>
+          <Button class="font-bold"> Login </Button>
         </RouterLink>
 
-        <Button v-else @click="logout"> Logout </Button>
+        <Button v-else @click="logout" class="font-bold"> Logout </Button>
       </template>
     </Menubar>
   </div>
