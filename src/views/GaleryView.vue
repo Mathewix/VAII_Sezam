@@ -1,7 +1,7 @@
 <template>
   <section class="p-4 sm:p-8">
     <section>
-      <h1 class="title-classic dark:text-white md:text-4xl">Galery</h1>
+      <h1 class="page-title dark:text-white md:text-4xl">Galery</h1>
       <p>Fotky zo zimného sústredenia 2023</p>
 
       <!-- grid -->

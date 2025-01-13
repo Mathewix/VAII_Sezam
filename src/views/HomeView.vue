@@ -21,7 +21,7 @@
   <section class="p-4 sm:p-8">
     <section class="mt-6">
       <h2
-        class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
+        class="section-title text-gray-900 dark:text-white"
       >
         About us
       </h2>
@@ -52,7 +52,7 @@
 
     <section class="mt-8">
       <h2
-        class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
+        class="section-title text-gray-900 dark:text-white"
       >
         Join the Math Adventure
       </h2>
@@ -77,7 +77,7 @@
       <section>
         <div class="py-8 lg:py-16 mx-auto max-w-screen-xl px-4">
           <h2
-            class="mb-8 lg:mb-16 text-3xl font-extrabold tracking-tight leading-tight text-center text-gray-900 dark:text-white md:text-4xl"
+            class="hero-title text-gray-900 dark:text-white md:text-4xl"
           >
             Sponsors
           </h2>

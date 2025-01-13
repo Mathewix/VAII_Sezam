@@ -5,7 +5,7 @@
         class="w-full md:w-5/12 flex flex-col items-center justify-center gap-3 py-5"
       >
         <h2
-          class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
+          class="section-title text-gray-900 dark:text-white"
         >
           Create new account
         </h2>
@@ -49,7 +49,7 @@
         class="w-full md:w-5/12 flex flex-col items-center justify-center py-5"
       >
         <h2
-          class="py-4 text-xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-2xl"
+          class="section-title text-gray-900 dark:text-white md:text-2xl"
         >
           Already have an account?
         </h2>

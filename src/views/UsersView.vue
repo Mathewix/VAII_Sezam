@@ -1,13 +1,18 @@
 <template>
     <section>
-      <h1>Users</h1>
+      <h2
+        class="section-title text-gray-900 dark:text-white"
+      >
+        Manage instructors
+      </h2>
       <section v-if="loading">Loading...</section>
       <section v-else>
-        <DataTable :value="users" class="min-w-96 mt-2">
+        <DataTable :value="users" class="data-table min-w-96 mt-2">
           <Column header="Icon">
             <template #body="{ data }">
-              <img :src="data.photoURL" alt="User icon" class="size-8 rounded-full" />
-            </template>
+                <img v-if="data.photoURL" :src="data.photoURL" alt="User icon" class="size-8 rounded-full" />
+                <Avatar v-else  icon="pi pi-user" class="mr-2" shape="circle" />
+              </template>
           </Column>
           <Column header="Name">
             <template #body="{ data }">
@@ -30,7 +35,6 @@
           </Column>
         </DataTable>
       </section>
-      <pre>{{ users }}</pre>
     </section>
   </template>
   
@@ -39,6 +43,7 @@
     import { getUsers, setRole } from '@/api'
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
+import Avatar from 'primevue/avatar'
   
   const users = ref([])
   const loading = ref(false)

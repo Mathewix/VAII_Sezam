@@ -2,7 +2,7 @@
   <section class="p-4 sm:p-8">
     <section class="mt-6">
       <h2
-        class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
+        class="section-title text-gray-900 dark:text-white"
       >
         Ranking of Contestants
       </h2>
@@ -132,7 +132,7 @@
         :value="filteredResults"
         sortField="total"
         :sortOrder="-1"
-        class="min-w-96 mt-2"
+        class="data-table min-w-96 mt-2"
       >
         <!-- Name Column -->
         <Column header="Name" field="name" sortable>
@@ -215,9 +215,9 @@
         </Column>
 
         <!-- Action Buttons -->
-        <Column v-if="userRole === 'admin' || userRole === 'editor'" header="Actions" class="flex justify-center">
+        <Column v-if="userRole === 'admin' || userRole === 'editor'" header="Actions">
           <template #body="{ data }">
-            <div v-if="isEditing === data.contestant"  class="flex justify-end items-center">
+            <div v-if="isEditing === data.contestant">
               <Button
                 label="Confirm"
                 icon="pi pi-check"

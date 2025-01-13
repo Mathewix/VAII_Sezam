@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <Menubar :model="items">
+    <Menubar :model="items" class="sticky-menubar">
       <template #start>
         <img src="/images/sezam-logo.png" alt="SEZAM Logo" class="sezam-logo" />
       </template>

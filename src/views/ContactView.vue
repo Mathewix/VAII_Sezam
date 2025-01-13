@@ -1,7 +1,7 @@
 <template>
   <section class="p-4 sm:p-8">
     <section>
-      <h1 class="title-classic dark:text-white md:text-4xl">Contacts</h1>
+      <h1 class="page-title dark:text-white md:text-4xl">Contacts</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
     </section>
 
@@ -9,7 +9,7 @@
       <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
           <h2
-            class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
+            class="section-title text-gray-900 dark:text-white"
           >
             Our Instructors
           </h2>
@@ -40,7 +40,7 @@
       <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div class="mx-auto max-w-screen-sm text-center mb-8 lg:mb-16">
           <h2
-            class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
+            class="section-title text-gray-900 dark:text-white"
           >
             Contact Us
           </h2>

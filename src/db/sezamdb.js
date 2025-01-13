@@ -179,7 +179,6 @@ export const SezamDb = {
       return new Promise((resolve, reject) => {
         const unsubscribe = onSnapshot(
           resultsRef,
-          //query(resultsRef, where('year', '==', year), where('set', '==', set)), // Filter by year and set
           snapshot => {
             const results = snapshot.docs.map(doc => ({
               id: doc.id,
@@ -228,7 +227,7 @@ export const SezamDb = {
     },
 
     async delete(result) {
-      const docRef = doc(db, 'results', result.id)
+      const docRef = doc(db, 'results', result.contestant)
       await deleteDoc(docRef)
     },
   },

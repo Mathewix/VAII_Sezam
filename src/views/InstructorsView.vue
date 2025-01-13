@@ -2,7 +2,7 @@
   <section class="p-4 sm:p-8">
     <section class="mt-6">
       <h2
-        class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
+        class="section-title text-gray-900 dark:text-white"
       >
         Manage instructors
       </h2>
@@ -59,7 +59,7 @@
           </div>
         </template>
       </div>
-      <DataTable :value="instructors" class="min-w-96 mt-2">
+      <DataTable :value="instructors" class="data-table min-w-96 mt-2">
         <Column header="Name">
           <template #body="{ data }">
             <template v-if="isEditing === data.id">

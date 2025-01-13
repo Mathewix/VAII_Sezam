@@ -1,7 +1,7 @@
 <template>
   <section class="p-4 sm:p-8">
     <section>
-      <h1 class="title-classic dark:text-white md:text-4xl">About us</h1>
+      <h1 class="page-title dark:text-white md:text-4xl">About us</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce rhoncus
         justo est, mollis dictum augue finibus in. Vivamus erat nulla, mattis
@@ -22,7 +22,7 @@
 
     <section class="mt-6">
       <h2
-        class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
+        class="section-title text-gray-900 dark:text-white"
       >
         Statistics
       </h2>
@@ -53,7 +53,7 @@
 
     <section class="mt-6">
       <h2
-        class="py-4 text-3xl font-extrabold tracking-tight leading-tight text-gray-900 dark:text-white md:text-4xl"
+        class="section-title text-gray-900 dark:text-white"
       >
         Our goals
       </h2>
