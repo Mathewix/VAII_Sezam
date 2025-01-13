@@ -133,3 +133,25 @@ export const addResult = async resultData => {
     return null
   }
 }
+
+export const updateResult = async resultData => {
+  try {
+    const result = await axios.post(url + '/updateResult', resultData)
+    console.log('Updated result: ', result)
+    return result.data
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+export const deleteResult = async resultData => {
+  try {
+    const result = await axios.post(url + '/deleteResult', resultData)
+    console.log('Deleted result: ', result)
+    return result.data
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}

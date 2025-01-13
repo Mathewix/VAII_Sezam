@@ -158,6 +158,17 @@ export const SezamDb = {
       }
 
       await addDoc(contestantsRef, contestant)
+    },
+
+    async update(contestant) {
+      const docRef = doc(db, 'Contestants', contestant.id)
+      await setDoc(docRef, {
+        Name: contestant.Name,
+        Surname: contestant.Surname,
+        Email: contestant.Email,
+        City: contestant.City,
+        Grade: contestant.Grade,
+      })
     }
   },
 
@@ -201,6 +212,24 @@ export const SezamDb = {
       }
 
       await addDoc(resultsRef, result);
+    },
+
+    async update(result) {
+      const docRef = doc(db, 'results', result.id)
+      await setDoc(docRef, {
+        year: result.year,
+        set: result.set,
+        contestant: result.contestant,
+        p1: result.p1,
+        p2: result.p2,
+        p3: result.p3,
+        p4: result.p4,
+      })
+    },
+
+    async delete(result) {
+      const docRef = doc(db, 'results', result.id)
+      await deleteDoc(docRef)
     },
   },
 }

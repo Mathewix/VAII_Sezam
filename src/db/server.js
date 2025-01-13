@@ -209,6 +209,47 @@ app.post('/addResult', async (req, res) => {
   }
 })
 
+app.post('/updateResult', async (req, res) => {
+  const data = req.body
+
+  // Validate input
+  if (!data.year || !data.set || !data.contestant) {
+    return res.status(400).json({ msg: 'Requires year, set and corresponding contestants id' })
+  }
+
+  try {
+    // Use SezamDb to add the result
+    await SezamDb.results.update(data)
+    res
+      .status(201)
+      .json({ msg: 'Result updated successfully', result: data })
+  } catch (error) {
+    console.error('Error updating result:', error)
+    res
+      .status(500)
+      .json({ msg: 'Failed to update result', error: error.message })
+  }
+})
+
+app.post('/deleteResult', async (req, res) => {
+  const data = req.body
+
+  // Ensure the result has an ID before trying to delete
+  if (!data.id) {
+    return res.status(400).json({ msg: 'Result ID is required' })
+  }
+
+  try {
+    await SezamDb.results.delete(data)
+    res.status(200).json({ msg: 'Result deleted successfully' })
+  } catch (error) {
+    console.error('Error deleting result:', error)
+    res
+      .status(500)
+      .json({ msg: 'Failed to delete result', error: error.message })
+  }
+})
+
 // POST route to add a contestant
 app.post('/addContestant', async (req, res) => {
   const data = req.body
@@ -229,6 +270,27 @@ app.post('/addContestant', async (req, res) => {
     res
       .status(500)
       .json({ msg: 'Failed to add contestant', error: error.message })
+  }
+})
+
+app.post('/updateContestant', async (req, res) => {
+  const data = req.body
+
+  // Validate input
+  if (!data.Name || !data.Grade || !data.City || !data.Surname) {
+    return res.status(400).json({ msg: 'Requires name, surname, city and grade' })
+  }
+
+  try {
+    await SezamDb.contestants.update(data)
+    res
+      .status(201)
+      .json({ msg: 'Contestant updated successfully', contestant: data })
+  } catch (error) {
+    console.error('Error updating contestant:', error)
+    res
+      .status(500)
+      .json({ msg: 'Failed to update contestant', error: error.message })
   }
 })
 
